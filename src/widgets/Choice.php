@@ -11,6 +11,8 @@ use Yii;
 class Choice extends \yii\base\Widget
 {
     public $model = NULL;
+    public $includeId = NULL;
+    public $excludeId = NULL;
 
     public function init()
     {
@@ -23,6 +25,14 @@ class Choice extends \yii\base\Widget
         $model = $this->model;
 
         foreach($model->filters as $filter) {
+            if(!is_null($this->includeId)) {
+                if(!isset($this->includeId[$filter->id])) continue;
+            }
+            
+            if(!is_null($this->excludeId)) {
+                if (isset($this->excludeId[$filter->id])) continue;
+            }
+            
             $row = $this->renderFilter($filter);
             $return[] = Html::tag('div', implode('', $row), ['class' => ' panel panel-default']);
         }
