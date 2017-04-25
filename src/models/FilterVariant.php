@@ -13,6 +13,11 @@ class FilterVariant extends \yii\db\ActiveRecord
                 'class' => 'dvizh\gallery\behaviors\AttachImages',
                 'mode' => 'single',
             ],
+            'slug' => [
+                'class' => 'Zelenin\yii\behaviors\Slug',
+                'slugAttribute' => 'latin_value',
+                'attribute' => 'value',
+            ],
         ];
     }
     
@@ -26,7 +31,7 @@ class FilterVariant extends \yii\db\ActiveRecord
         return [
             [['filter_id'], 'required'],
             [['filter_id', 'numeric_value'], 'integer'],
-            [['value'], 'string'],
+            [['value', 'latin_value'], 'string'],
         ];
     }
 
@@ -47,12 +52,12 @@ class FilterVariant extends \yii\db\ActiveRecord
         $setting->save();
     }
 
-    public function beforeValidate()
+    public function beforeSave($insert)
     {
         if(empty($this->numeric_value)) {
             $this->numeric_value = (int)$this->value;
         }
-        
-        return true;
+
+        return parent::beforeSave($insert);
     }
 }

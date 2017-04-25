@@ -6,6 +6,15 @@ use yii\helpers\ArrayHelper;
 
 class Filter extends \yii\db\ActiveRecord
 {
+    function behaviors()
+    {
+        return [
+            'slug' => [
+                'class' => 'Zelenin\yii\behaviors\Slug',
+            ],
+        ];
+    }
+
     public static function tableName()
     {
         return '{{%filter}}';
@@ -14,7 +23,7 @@ class Filter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'slug'], 'required'],
+            [['name'], 'required'],
             [['sort'], 'integer'],
             [['name', 'type', 'relation_field_name', 'description', 'slug', 'is_filter'], 'string'],
         ];
@@ -64,20 +73,22 @@ class Filter extends \yii\db\ActiveRecord
         foreach ($this->hasMany(FieldRelationValue::className(), ['filter_id' => 'id'])->all() as $frv) {
             $frv->delete();
         }
-        
+
         foreach ($this->hasMany(FilterVariant::className(), ['filter_id' => 'id'])->all() as $fv) {
             $fv->delete();
         }
-		
+
         return true;
     }
-    
-    public function beforeValidate()
+
+    public function beforeSave($insert)
     {
+        //TODO: отрефакторить
         $values = yii::$app->request->post('Filter')['relation_field_value'];
-        
+
         if(is_array($values)) {
             FieldRelationValue::deleteAll(['filter_id' => $this->id]);
+
             foreach($values as $value) {
                 $filterRelationValue = new FieldRelationValue;
                 $filterRelationValue->filter_id = $this->id;
@@ -89,10 +100,10 @@ class Filter extends \yii\db\ActiveRecord
         } else {
             $this->relation_field_value = serialize([]);
         }
-        
-        return true;
+
+        return parent::beforeSave($insert);
     }
-    
+
     public function afterFind()
     {
         if(empty($this->relation_field_value)) {
@@ -100,7 +111,7 @@ class Filter extends \yii\db\ActiveRecord
         } elseif(!is_array($this->relation_field_value)) {
             $this->relation_field_value = unserialize($this->relation_field_value);
         }
-        
+
         return true;
     }
 }

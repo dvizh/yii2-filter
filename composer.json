@@ -4,7 +4,7 @@
     "keywords": ["yii2", "yii2", "application", "options", "filter", "module", "dvizh"],
     "homepage": "https://github.com/dvizh/yii2-filter",
     "type": "yii2-extension",
-    "license": "BSD-3-Clause",
+    "license": "Apache",
     "support": {
         "source": "https://github.com/dvizh/yii2-filter"
     },
@@ -22,7 +22,8 @@
         "2amigos/yii2-grid-view-library": "*",
         "kartik-v/yii2-widget-select2": "*",
         "dvizh/yii2-gallery": "*",
-        "yii2mod/yii2-ion-slider": "*"
+        "yii2mod/yii2-ion-slider": "*",
+        "zelenin/yii2-slug-behavior": "~1.5.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
