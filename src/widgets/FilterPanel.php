@@ -35,18 +35,13 @@ class FilterPanel extends \yii\base\Widget
     public function run()
     {
         $params = ['is_filter' => 'yes'];
-        
+
         if($this->filterId) {
             $params['id'] = $this->filterId;
         }
-        
-        if ($this->itemId) {
-            $filters = Filter::find()->orderBy('sort DESC')->andWhere($params)->all();
-        } else {
-            $filters = Filter::find()->orderBy('sort DESC')->all();
-        }
-            
-        
+
+        $filters = Filter::find()->orderBy('sort DESC')->andWhere($params)->all();
+
         $return = [];
         foreach($filters as $filter) {
             if(empty($this->itemId) || in_array($this->itemId, $filter->selected)) {

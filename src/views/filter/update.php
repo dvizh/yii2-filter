@@ -5,16 +5,12 @@ use yii\grid\GridView;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Settings */
 
 $this->title = 'Обновление фильтра';
 $this->params['breadcrumbs'][] = ['label' => 'Фильтры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Обновление';
 ?>
 <div class="filter-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

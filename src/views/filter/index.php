@@ -6,8 +6,6 @@ $this->title = 'Фильтры';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="filter-index">
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Добавить фильтр', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
