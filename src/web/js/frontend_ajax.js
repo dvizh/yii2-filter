@@ -19,8 +19,9 @@ dvizh.filterAjax = {
     renderResults: function() {
         var data = $('.dvizh-filter').serialize();
         var resultHtmlSelector = $('.dvizh-filter').data('resulthtmlselector');
-        
+
         $(resultHtmlSelector).css('opacity', 0.3);
+
         $(resultHtmlSelector).load(location.protocol + '//' + location.host + location.pathname+'?'+data+' '+resultHtmlSelector, function() {
             $(resultHtmlSelector).css('opacity', 1);
         });

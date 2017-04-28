@@ -2,7 +2,6 @@
 namespace dvizh\filter\widgets\types;
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use Yii;
 

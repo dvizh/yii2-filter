@@ -148,7 +148,13 @@ class FilterPanel extends \yii\base\Widget
 
         if($return) {
             $return[] = Html::input('submit', '', $this->submitButtonValue, ['class' => 'btn btn-submit']);
-            
+
+            foreach(yii::$app->request->get() as $key => $value) {
+                if(!is_array($value)) {
+                    $return[] = Html::input('hidden', Html::encode($key), Html::encode($value));
+                }
+            }
+
             return Html::tag('form', implode('', $return), ['data-resulthtmlselector' => $this->resultHtmlSelector, 'name' => 'dvizh-filter', 'action' => '', 'class' => 'dvizh-filter']);
         }
         
