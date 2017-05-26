@@ -11,6 +11,10 @@ class Asset extends AssetBundle
         'yii\bootstrap\BootstrapPluginAsset'
     ];
 
+    public $css = [
+        'css/backend.css',
+    ];
+
     public function init()
     {
         $this->sourcePath = __DIR__ . '/../web';

@@ -78,10 +78,23 @@ class AttachFilterValues extends Behavior
 
     public function getFilters()
     {
+        $filters = Filter::find()->where(['is_filter' => 'yes'])->all();
+
+        return $this->formList($filters);
+    }
+
+    public function getOptions()
+    {
+        $filters = Filter::find()->where(['is_filter' => 'no'])->all();
+
+        return $this->formList($filters);
+    }
+
+    private function formList($filters)
+    {
         $model = $this->owner;
         $return = [];
-        $filters = Filter::find()->all();
-        
+
         foreach($filters as $filter) {
             $field = $filter->relation_field_name;
             $show = false;
@@ -97,22 +110,6 @@ class AttachFilterValues extends Behavior
 
             if ($show == true) {
                 $return[] = $filter;
-            }
-        }
-
-        return $return;
-    }
-
-    public function getOptions()
-    {
-        $return = [];
-        $variantFilters = $this->owner->filterVariants();
-
-        foreach($this->owner->filters as $filter) {
-            foreach($filter->variants as $variant) {
-                if(isset($variantFilters[$variant->id])) {
-                    $return[$filter->name][] = $variant->value;
-                }
             }
         }
 

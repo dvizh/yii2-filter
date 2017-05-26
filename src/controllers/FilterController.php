@@ -6,7 +6,7 @@ use dvizh\filter\models\Filter;
 use dvizh\filter\models\tools\FilterSearch;
 use dvizh\filter\models\FilterVariant;
 use dvizh\filter\models\tools\FilterVariantSearch;
-use dvizh\filter\models\FieldRelationValue;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,12 +36,19 @@ class FilterController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($tab = 'filters')
     {
         $searchModel = new FilterSearch();
         $dataProvider = $searchModel->search(yii::$app->request->queryParams);
 
+        if($tab == 'filters') {
+            $dataProvider->query->andWhere(['{{%filter}}.is_filter' => 'yes']);
+        } else {
+            $dataProvider->query->andWhere(['{{%filter}}.is_filter' => 'no']);
+        }
+
         return $this->render('index', [
+            'tab' => Html::encode($tab),
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
