@@ -90,6 +90,13 @@ class AttachFilterValues extends Behavior
         return $this->formList($filters);
     }
 
+    public function getOptionsByIds($ids = [])
+    {
+        $filters = Filter::find()->where(['is_filter' => 'no', 'id' => $ids])->all();
+
+        return $this->formList($filters);
+    }
+
     private function formList($filters)
     {
         $model = $this->owner;
