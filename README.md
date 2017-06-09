@@ -18,13 +18,13 @@ Yii2-filter
 Выполнить команду
 
 ```
-php composer require dvizh/yii2-filter "*"
+php composer require dvizh/yii2-filter "@dev"
 ```
 
 Или добавить в composer.json
 
 ```
-"dvizh/yii2-filter": "*",
+"dvizh/yii2-filter": "@dev",
 ```
 
 И выполнить
