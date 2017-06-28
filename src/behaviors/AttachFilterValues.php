@@ -85,14 +85,14 @@ class AttachFilterValues extends Behavior
 
     public function getOptions()
     {
-        $filters = Filter::find()->where(['is_filter' => 'no'])->all();
+        $filters = Filter::find()->where(['is_option' => 'yes'])->all();
 
         return $this->formList($filters);
     }
 
     public function getOptionsByIds($ids = [])
     {
-        $filters = Filter::find()->where(['is_filter' => 'no', 'id' => $ids])->all();
+        $filters = Filter::find()->where(['is_option' => 'yes', 'id' => $ids])->all();
 
         return $this->formList($filters);
     }
