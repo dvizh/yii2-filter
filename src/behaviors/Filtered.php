@@ -96,4 +96,35 @@ class Filtered extends Behavior
 
         return $this->owner;
     }
+    
+    public function convertFilterUrl($url)
+    {
+        if(is_array($url)) {
+            return $url;
+        }
+        
+        $filterString = explode('_and_', $url);
+        
+        $params = [];
+        
+        //decompose
+        foreach($filterString as $filterData) {
+            $filterData = explode('_is_', $filterData);
+            $params[$filterData[0]] = explode('_or_', $filterData[1]);
+        }
+        
+        $return = [];
+        
+        foreach($params as $filterSlug => $filterVariants) {
+            if($filter = Filter::findOne(['slug' => $filterSlug])) {
+                $return[$filter->id] = [];
+                foreach($filterVariants as $variantSlug) {
+                    $variant = FilterVariant::findOne(['latin_value' => $variantSlug]);
+                    $return[$filter->id][$variant->id] = $variant->id;
+                }
+            }
+        }
+        
+        return $return;
+    }
 }
