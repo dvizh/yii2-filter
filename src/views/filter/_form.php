@@ -22,7 +22,10 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'name')->textInput() ?>
             <?= $form->field($model, 'slug')->textInput(['label' => 'Идентификатор']) ?>
             <?= $form->field($model, 'sort')->textInput() ?>
-            <?= $form->field($model, 'is_filter')->dropdownList(['no' => 'Опция', 'yes' => 'Фильтр'])->label('Тип') ?>
+            <div class="row">
+                <div class="col-md-6"><?= $form->field($model, 'is_option')->dropdownList(['no' => 'Нет', 'yes' => 'Да']) ?></div>
+                <div class="col-md-6"><?= $form->field($model, 'is_filter')->dropdownList(['no' => 'Нет', 'yes' => 'Да']) ?></div>
+            </div>
             <?= $form->field($model, 'type')->dropdownList(Yii::$app->getModule('filter')->types)->label('Тип фильтрации на сайте') ?>
             <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
             <div class="form-group">

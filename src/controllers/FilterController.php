@@ -44,7 +44,7 @@ class FilterController extends Controller
         if($tab == 'filters') {
             $dataProvider->query->andWhere(['{{%filter}}.is_filter' => 'yes']);
         } else {
-            $dataProvider->query->andWhere(['{{%filter}}.is_filter' => 'no']);
+            $dataProvider->query->andWhere(['{{%filter}}.is_option' => 'yes']);
         }
 
         return $this->render('index', [
