@@ -204,7 +204,9 @@ class FilterPanel extends \yii\base\Widget
         }
         
         if($filterType == 'checkbox') {
-            $params[$filterSlug][] = $variantValue;
+            if(!in_array($variantValue, $params[$filterSlug])) {
+                $params[$filterSlug][] = $variantValue;
+            }
         } else {
             $params[$filterSlug] = [$variantValue];
         }
