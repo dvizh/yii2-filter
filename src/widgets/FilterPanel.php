@@ -143,7 +143,7 @@ class FilterPanel extends \yii\base\Widget
                         $field = Html::input($filter->type, $fieldName, $variant->id, ['checked' => $checked, 'data-item-css-class' => $this->itemCssClass, 'id' => "variant{$variant->id}"]);
 
                         if($this->actionRoute) {
-                            $field .= Html::label(Html::a($variant->value, $this->buildUrl($filter->slug, $variant->latin_value, $filter->type)), "variant{$variant->id}"); 
+                            $field .= Html::label(Html::a($variant->value, $this->buildUrl($filter->slug, $variant->latin_value, $filter->type, $checked)), "variant{$variant->id}"); 
                         } else {
                             $field .= Html::label($variant->value, "variant{$variant->id}"); 
                         }
@@ -179,7 +179,7 @@ class FilterPanel extends \yii\base\Widget
         return null;
     }
     
-    public function buildUrl($filterSlug, $variantValue, $filterType = 'radio')
+    public function buildUrl($filterSlug, $variantValue, $filterType = 'radio', $checked = false)
     {
         if(!is_array($this->actionRoute) | is_array(yii::$app->request->get($this->filterGetParamName))) {
             return '#';
@@ -205,17 +205,26 @@ class FilterPanel extends \yii\base\Widget
         
         if($filterType == 'checkbox') {
             if(!in_array($variantValue, $params[$filterSlug])) {
-                $params[$filterSlug][] = $variantValue;
+                $params[$filterSlug][$variantValue] = $variantValue;
             }
         } else {
-            $params[$filterSlug] = [$variantValue];
+            $params[$filterSlug] = [$variantValue => $variantValue];
         }
-        
         
         //compose
         $filterString = [];
         foreach($params as $filterSlug => $filterVariants) {
-            $filterString[] = $filterSlug . '_is_' . implode('_or_', $filterVariants);
+            if($checked) {
+                foreach($filterVariants as $key => $val) {
+                    if($val == $variantValue) {
+                        unset($filterVariants[$key]);
+                        
+                    }
+                }
+            }
+            if($filterVariants) {
+                $filterString[] = $filterSlug . '_is_' . implode('_or_', $filterVariants);
+            }
         }
         
         $this->actionRoute[$this->filterGetParamName] = implode('_and_', $filterString);
