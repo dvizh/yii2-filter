@@ -89,12 +89,12 @@ class Filtered extends Behavior
         $filtered = FilterValue::find()->select('item_id')->groupBy('item_id')->andHaving("COUNT(DISTINCT `filter_id`) = $variantCount")->andFilterWhere($condition);
 
         $modelClass = $this->owner->modelClass;
-        $tableNAME = $modelClass::tableName();
+        $tableName = $modelClass::tableName();
 
         if ($filtered->count() > 0) {
-            $this->owner->andWhere([$tableNAME . '.id' => $filtered]);
+            $this->owner->andWhere([$tableName . '.id' => $filtered]);
         } else {
-            $this->owner->andWhere([$tableNAME . '.id' => 0]);
+            $this->owner->andWhere([$tableName . '.id' => 0]);
         }
 
         return $this->owner;

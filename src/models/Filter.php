@@ -52,9 +52,13 @@ class Filter extends \yii\db\ActiveRecord
 
     public function getVariantsByFindModel($findModel)
     {
-        $variantIds = FilterValue::find()->select('variant_id')->distinct()->where(['item_id' => $findModel->select('id')]);
+        
+        $modelClass = $findModel->modelClass;
+        $tableName = $modelClass::tableName();
+        
+        $variantIds = FilterValue::find()->select('variant_id')->distinct()->where(['item_id' => $findModel->select($tableName . '.id')]);
 
-        return $this->hasMany(FilterVariant::className(), ['filter_id' => 'id'])->where(['id' => $variantIds]);
+        return $this->hasMany(FilterVariant::className(), ['filter_id' => 'id'])->where([FilterVariant::tableName() . '.id' => $variantIds]);
     }
     
     public function getSelected()
